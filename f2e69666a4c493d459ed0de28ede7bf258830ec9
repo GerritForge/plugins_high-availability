@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a82fadf_218bd2bf",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/autoreindex/IndexTs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2019-07-02T23:43:31Z",
+      "side": 1,
+      "message": "Is there an onProjectIndexed method missing or there is a reason not to be here?",
+      "revId": "f2e69666a4c493d459ed0de28ede7bf258830ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

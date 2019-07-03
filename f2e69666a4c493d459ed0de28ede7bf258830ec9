@@ -16,6 +16,24 @@
       "revId": "f2e69666a4c493d459ed0de28ede7bf258830ec9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d17dfe9_e35f9227",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/autoreindex/IndexTs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-07-03T00:04:50Z",
+      "side": 1,
+      "message": "Not sure we need the project indexing TS, as the absence or presence of a project is something that is very unlikely to be missed. But yes, it is potentially another problem.",
+      "parentUuid": "2a82fadf_218bd2bf",
+      "revId": "f2e69666a4c493d459ed0de28ede7bf258830ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

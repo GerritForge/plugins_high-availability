@@ -184,8 +184,8 @@ the plugin will keep retrying to forward a message for one hour.
     Defaults to true.
 
 ```index.numStripedLocks```
-:   Number of striped locks to use for during secondary indexes reindex.
-    Defaults to 10
+:   Number of striped locks to use during reindexing.
+    Defaults to 10.
 
 ```index.synchronize```
 :   Whether to synchronize secondary indexes.

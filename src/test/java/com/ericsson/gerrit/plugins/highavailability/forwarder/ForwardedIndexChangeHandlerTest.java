@@ -19,7 +19,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,9 +29,7 @@ import com.ericsson.gerrit.plugins.highavailability.index.ChangeChecker;
 import com.ericsson.gerrit.plugins.highavailability.index.ChangeCheckerImpl;
 import com.ericsson.gerrit.plugins.highavailability.index.ChangeDb;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -70,32 +67,30 @@ public class ForwardedIndexChangeHandlerTest {
   @Mock private ChangeDb changeDbMock;
   @Mock private ReviewDb dbMock;
   @Mock private ChangeNotes changeNotes;
-  @Mock private Configuration configurationMock;
-  @Mock private Configuration.Index index;
+  @Mock private Configuration configMock;
+  @Mock private Configuration.Index indexMock;
   @Mock private ScheduledExecutorService indexExecutorMock;
   @Mock private OneOffRequestContext ctxMock;
-  @Mock private GitRepositoryManager gitRepoMgrMock;
   @Mock private ChangeCheckerImpl.Factory changeCheckerFactoryMock;
   @Mock private ChangeChecker changeCheckerAbsentMock;
   @Mock private ChangeChecker changeCheckerPresentMock;
   private ForwardedIndexChangeHandler handler;
   private Change.Id id;
-  private Change change;
 
   @Before
   public void setUp() throws Exception {
     when(changeDbMock.open()).thenReturn(dbMock);
     id = new Change.Id(TEST_CHANGE_NUMBER);
-    change = new Change(null, id, null, null, TimeUtil.nowTs());
+    Change change = new Change(null, id, null, null, TimeUtil.nowTs());
     when(changeNotes.getChange()).thenReturn(change);
+    when(configMock.index()).thenReturn(indexMock);
+    when(indexMock.numStripedLocks()).thenReturn(10);
     when(changeCheckerFactoryMock.create(any())).thenReturn(changeCheckerAbsentMock);
-    when(configurationMock.index()).thenReturn(index);
-    when(index.numStripedLocks()).thenReturn(10);
     handler =
         new ForwardedIndexChangeHandler(
             indexerMock,
             changeDbMock,
-            configurationMock,
+            configMock,
             indexExecutorMock,
             ctxMock,
             changeCheckerFactoryMock);
@@ -125,9 +120,7 @@ public class ForwardedIndexChangeHandlerTest {
   public void changeToIndexDoesNotExist() throws Exception {
     setupChangeAccessRelatedMocks(CHANGE_DOES_NOT_EXIST, CHANGE_OUTDATED);
     handler.index(TEST_CHANGE_ID, Operation.INDEX, Optional.empty());
-    verify(indexerMock, never()).delete(id);
-    verify(indexerMock, never())
-        .index(any(ReviewDb.class), any(Project.NameKey.class), any(Change.Id.class));
+    verify(indexerMock, times(1)).delete(id);
   }
 
   @Test

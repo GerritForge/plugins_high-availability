@@ -12,25 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.ericsson.gerrit.plugins.highavailability.forwarder.rest;
+package com.ericsson.gerrit.plugins.highavailability.index;
 
-import com.ericsson.gerrit.plugins.highavailability.forwarder.ForwardedIndexProjectHandler;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
-@Singleton
-class IndexProjectRestApiServlet extends AbstractIndexRestApiServlet<Project.NameKey> {
-  private static final long serialVersionUID = -1L;
+public class ProjectIndexForwardingIT extends AbstractIndexForwardingIT {
+  private String someProjectName;
 
-  @Inject
-  IndexProjectRestApiServlet(ForwardedIndexProjectHandler handler) {
-    super(handler, IndexName.PROJECT);
+  @Override
+  public void beforeAction() throws Exception {
+    someProjectName = gApi.projects().create("someProject").get().name;
   }
 
   @Override
-  Project.NameKey parse(String projectName) {
-    return new Project.NameKey(Url.decode(projectName));
+  public String getExpectedRequest() {
+    return "/plugins/high-availability/index/project/" + Url.encode(someProjectName);
+  }
+
+  @Override
+  public void doAction() throws Exception {
+    gApi.projects().name(someProjectName).index(false);
   }
 }

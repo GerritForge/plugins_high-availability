@@ -21,6 +21,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 public class ChangeDb {
+  private static final DisabledReviewDb disabledReviewDb = new DisabledReviewDb();
+
   private final NotesMigration migration;
   private final SchemaFactory<ReviewDb> schemaFactory;
 
@@ -31,6 +33,6 @@ public class ChangeDb {
   }
 
   public ReviewDb open() throws OrmException {
-    return schemaFactory.open();
+    return migration.readChanges() ? disabledReviewDb : schemaFactory.open();
   }
 }

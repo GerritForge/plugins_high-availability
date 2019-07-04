@@ -51,6 +51,24 @@
       "revId": "f2e69666a4c493d459ed0de28ede7bf258830ec9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8ca9627_d2f385d4",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/CurrentRequestContext.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-07-04T06:27:39Z",
+      "side": 1,
+      "message": "Actually, I believe that part of code is unreachable:\n- FallbackRequestContext is returned when there is no current context available in the local thread\n- We don\u0027t inject a Provider\u003cRequestContext\u003e but use directly the ThreadLocalRequestContext: so checking for null is enough.",
+      "parentUuid": "905ff10f_447be2e4",
+      "revId": "f2e69666a4c493d459ed0de28ede7bf258830ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }

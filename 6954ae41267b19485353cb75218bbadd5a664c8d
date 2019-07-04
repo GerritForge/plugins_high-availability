@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6da45495_e757013e",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/CurrentRequestContext.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2019-07-04T09:04:13Z",
+      "side": 1,
+      "message": "nit: no need for an early return\n\n  public void onlyWithContext(Consumer\u003cRequestContext\u003e body) {\n    RequestContext ctx \u003d threadLocalCtx.getContext();\n    if (ctx !\u003d null) {\n      body.accept(ctx);\n    }\n  }",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "6954ae41267b19485353cb75218bbadd5a664c8d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

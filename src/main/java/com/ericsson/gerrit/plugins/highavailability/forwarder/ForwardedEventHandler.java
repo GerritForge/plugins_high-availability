@@ -17,7 +17,6 @@ package com.ericsson.gerrit.plugins.highavailability.forwarder;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
@@ -43,9 +42,9 @@ public class ForwardedEventHandler {
    * Dispatch an event in the local node, event will not be forwarded to the other node.
    *
    * @param event The event to dispatch
-   * @throws OrmException If an error occur while retrieving the change the event belongs to.
+   * @throws PermissionBackendException If an error occur while retrieving the change the event belongs to.
    */
-  public void dispatch(Event event) throws OrmException, PermissionBackendException {
+  public void dispatch(Event event) throws PermissionBackendException {
     try {
       Context.setForwardedEvent(true);
       log.debug("dispatching event {}", event.getType());

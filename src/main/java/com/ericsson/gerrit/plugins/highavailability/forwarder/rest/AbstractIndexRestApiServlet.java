@@ -25,7 +25,6 @@ import com.ericsson.gerrit.plugins.highavailability.forwarder.IndexEvent;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Optional;
@@ -93,10 +92,6 @@ public abstract class AbstractIndexRestApiServlet<T> extends AbstractRestApiServ
     } catch (IOException e) {
       sendError(rsp, SC_CONFLICT, e.getMessage());
       log.error("Unable to update {} index", indexName, e);
-    } catch (OrmException e) {
-      String msg = String.format("Error trying to find %s", indexName);
-      sendError(rsp, SC_NOT_FOUND, msg);
-      log.debug(msg, e);
     }
   }
 

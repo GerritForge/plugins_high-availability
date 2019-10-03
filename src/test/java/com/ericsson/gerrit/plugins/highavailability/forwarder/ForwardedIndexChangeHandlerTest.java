@@ -30,13 +30,11 @@ import com.ericsson.gerrit.plugins.highavailability.index.ChangeChecker;
 import com.ericsson.gerrit.plugins.highavailability.index.ChangeCheckerImpl;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
@@ -118,7 +116,7 @@ public class ForwardedIndexChangeHandlerTest {
     handler.index(TEST_CHANGE_ID, Operation.INDEX, Optional.empty());
     verify(indexerMock, never()).delete(id);
     verify(indexerMock, never())
-        .index(any(ReviewDb.class), any(Project.NameKey.class), any(Change.Id.class));
+        .index(any(Project.NameKey.class), any(Change.Id.class));
   }
 
   @Test
@@ -182,14 +180,14 @@ public class ForwardedIndexChangeHandlerTest {
 
   private void setupChangeAccessRelatedMocks(
       boolean changeExist, boolean ormException, boolean changeUpToDate)
-      throws OrmException, IOException {
+      throws IOException {
     setupChangeAccessRelatedMocks(
         changeExist, ormException, DO_NOT_THROW_IO_EXCEPTION, changeUpToDate);
   }
 
   private void setupChangeAccessRelatedMocks(
       boolean changeExists, boolean ormException, boolean ioException, boolean changeIsUpToDate)
-      throws OrmException, IOException {
+      throws IOException {
     if (changeExists) {
       when(changeCheckerFactoryMock.create(TEST_CHANGE_ID)).thenReturn(changeCheckerPresentMock);
       when(changeCheckerPresentMock.getChangeNotes()).thenReturn(Optional.of(changeNotes));

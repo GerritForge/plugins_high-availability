@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.util.OneOffRequestContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -62,7 +61,7 @@ public class AccountReindexRunnable extends ReindexRunnable<AccountState> {
         accountIdx.index(a.getId(), Operation.INDEX, Optional.empty());
         return Optional.of(accountTs);
       }
-    } catch (IOException | OrmException e) {
+    } catch (IOException e) {
       log.error("Reindex failed", e);
     }
     return Optional.empty();

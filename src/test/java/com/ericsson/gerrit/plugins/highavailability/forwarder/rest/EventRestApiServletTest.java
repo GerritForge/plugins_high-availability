@@ -29,7 +29,6 @@ import com.google.common.net.MediaType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.events.EventTypes;
 import com.google.gerrit.server.events.RefEvent;
-import com.google.gwtorm.server.OrmException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -74,20 +73,6 @@ public class EventRestApiServletTest {
 
     verify(forwardedEventHandlerMock).dispatch(any(RefReplicationDoneEvent.class));
     verify(responseMock).setStatus(SC_NO_CONTENT);
-  }
-
-  @Test
-  public void testDoPostDispatcherFailure() throws Exception {
-    String event =
-        "{\"project\":\"gerrit/some-project\",\"ref\":"
-            + "\"refs/changes/76/669676/2\",\"nodesCount\":1,\"type\":"
-            + "\"ref-replication-done\",\"eventCreatedOn\":1451415011}";
-    when(requestMock.getReader()).thenReturn(new BufferedReader(new StringReader(event)));
-    doThrow(new OrmException(ERR_MSG))
-        .when(forwardedEventHandlerMock)
-        .dispatch(any(RefReplicationDoneEvent.class));
-    eventRestApiServlet.doPost(requestMock, responseMock);
-    verify(responseMock).sendError(SC_NOT_FOUND, "Change not found\n");
   }
 
   @Test

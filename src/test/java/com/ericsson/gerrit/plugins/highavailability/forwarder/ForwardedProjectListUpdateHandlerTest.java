@@ -15,7 +15,7 @@
 package com.ericsson.gerrit.plugins.highavailability.forwarder;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
@@ -35,7 +35,7 @@ public class ForwardedProjectListUpdateHandlerTest {
 
   private static final String PROJECT_NAME = "someProject";
   private static final String SOME_MESSAGE = "someMessage";
-  private static final Project.NameKey PROJECT_KEY = new Project.NameKey(PROJECT_NAME);
+  private static final Project.NameKey PROJECT_KEY = Project.nameKey(PROJECT_NAME);
   @Rule public ExpectedException exception = ExpectedException.none();
   @Mock private ProjectCache projectCacheMock;
   private ForwardedProjectListUpdateHandler handler;
@@ -109,12 +109,9 @@ public class ForwardedProjectListUpdateHandlerTest {
         .onCreateProject(PROJECT_KEY);
 
     assertThat(Context.isForwardedEvent()).isFalse();
-    try {
-      handler.update(PROJECT_NAME, false);
-      fail("should have thrown a RuntimeException");
-    } catch (RuntimeException e) {
-      assertThat(e.getMessage()).isEqualTo(SOME_MESSAGE);
-    }
+    RuntimeException thrown =
+        assertThrows(RuntimeException.class, () -> handler.update(PROJECT_NAME, false));
+    assertThat(thrown).hasMessageThat().isEqualTo(SOME_MESSAGE);
     assertThat(Context.isForwardedEvent()).isFalse();
 
     verify(projectCacheMock).onCreateProject(PROJECT_KEY);
@@ -132,12 +129,9 @@ public class ForwardedProjectListUpdateHandlerTest {
         .remove(PROJECT_KEY);
 
     assertThat(Context.isForwardedEvent()).isFalse();
-    try {
-      handler.update(PROJECT_NAME, true);
-      fail("should have thrown a RuntimeException");
-    } catch (RuntimeException e) {
-      assertThat(e.getMessage()).isEqualTo(SOME_MESSAGE);
-    }
+    RuntimeException thrown =
+        assertThrows(RuntimeException.class, () -> handler.update(PROJECT_NAME, true));
+    assertThat(thrown).hasMessageThat().isEqualTo(SOME_MESSAGE);
     assertThat(Context.isForwardedEvent()).isFalse();
 
     verify(projectCacheMock).remove(PROJECT_KEY);

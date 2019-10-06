@@ -23,7 +23,9 @@ import com.ericsson.gerrit.plugins.highavailability.forwarder.ForwardedEventHand
 import com.google.common.io.CharStreams;
 import com.google.common.net.MediaType;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.EventGson;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -35,10 +37,10 @@ class EventRestApiServlet extends AbstractRestApiServlet {
   private static final long serialVersionUID = -1L;
 
   private final ForwardedEventHandler forwardedEventHandler;
-  private final GsonProvider gson;
+  private final Gson gson;
 
   @Inject
-  EventRestApiServlet(ForwardedEventHandler forwardedEventHandler, GsonProvider gson) {
+  EventRestApiServlet(ForwardedEventHandler forwardedEventHandler, @EventGson Gson gson) {
     this.forwardedEventHandler = forwardedEventHandler;
     this.gson = gson;
   }
@@ -61,6 +63,6 @@ class EventRestApiServlet extends AbstractRestApiServlet {
 
   private Event getEventFromRequest(HttpServletRequest req) throws IOException {
     String jsonEvent = CharStreams.toString(req.getReader());
-    return gson.get().fromJson(jsonEvent, Event.class);
+    return gson.fromJson(jsonEvent, Event.class);
   }
 }

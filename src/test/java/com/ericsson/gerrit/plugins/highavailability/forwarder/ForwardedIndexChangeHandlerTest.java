@@ -15,7 +15,7 @@
 package com.ericsson.gerrit.plugins.highavailability.forwarder;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
@@ -69,7 +69,7 @@ public class ForwardedIndexChangeHandlerTest {
 
   @Before
   public void setUp() throws Exception {
-    id = new Change.Id(TEST_CHANGE_NUMBER);
+    id = Change.id(TEST_CHANGE_NUMBER);
     Change change = new Change(null, id, null, null, TimeUtil.nowTs());
     when(changeNotes.getChange()).thenReturn(change);
     when(configMock.index()).thenReturn(indexMock);
@@ -127,12 +127,11 @@ public class ForwardedIndexChangeHandlerTest {
         .index(any(Change.class));
 
     assertThat(Context.isForwardedEvent()).isFalse();
-    try {
-      handler.index(TEST_CHANGE_ID, Operation.INDEX, Optional.empty());
-      fail("should have thrown an IOException");
-    } catch (IOException e) {
-      assertThat(e.getMessage()).isEqualTo("someMessage");
-    }
+    IOException thrown =
+        assertThrows(
+            IOException.class,
+            () -> handler.index(TEST_CHANGE_ID, Operation.INDEX, Optional.empty()));
+    assertThat(thrown).hasMessageThat().isEqualTo("someMessage");
     assertThat(Context.isForwardedEvent()).isFalse();
 
     verify(indexerMock, times(1)).index(any(Change.class));

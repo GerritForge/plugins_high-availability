@@ -15,7 +15,7 @@
 package com.ericsson.gerrit.plugins.highavailability.forwarder;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.fail;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,7 +50,7 @@ public class ForwardedIndexAccountHandlerTest {
     when(configMock.index()).thenReturn(indexMock);
     when(indexMock.numStripedLocks()).thenReturn(10);
     handler = new ForwardedIndexAccountHandler(indexerMock, configMock);
-    id = new Account.Id(123);
+    id = Account.id(123);
   }
 
   @Test
@@ -98,12 +98,9 @@ public class ForwardedIndexAccountHandlerTest {
         .index(id);
 
     assertThat(Context.isForwardedEvent()).isFalse();
-    try {
-      handler.index(id, Operation.INDEX, Optional.empty());
-      fail("should have thrown an IOException");
-    } catch (IOException e) {
-      assertThat(e.getMessage()).isEqualTo("someMessage");
-    }
+    IOException thrown =
+        assertThrows(IOException.class, () -> handler.index(id, Operation.INDEX, Optional.empty()));
+    assertThat(thrown).hasMessageThat().isEqualTo("someMessage");
     assertThat(Context.isForwardedEvent()).isFalse();
 
     verify(indexerMock).index(id);

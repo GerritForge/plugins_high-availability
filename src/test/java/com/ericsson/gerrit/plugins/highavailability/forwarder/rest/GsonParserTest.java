@@ -19,31 +19,32 @@ import static com.google.common.truth.Truth.assertThat;
 import com.ericsson.gerrit.plugins.highavailability.cache.Constants;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.events.EventGsonProvider;
 import com.google.gson.Gson;
 import org.junit.Test;
 
 public class GsonParserTest {
   private static final Object EMPTY_JSON = "{}";
-  private final Gson gson = new Gson();
-  private final GsonParser objectUnderTest = new GsonParser(new GsonProvider());
+  private final Gson gson = new EventGsonProvider().get();
+  private final GsonParser objectUnderTest = new GsonParser(gson);
 
   @Test
   public void accountIDParse() {
-    Account.Id accountId = new Account.Id(1);
+    Account.Id accountId = Account.id(1);
     String json = gson.toJson(accountId);
     assertThat(accountId).isEqualTo(objectUnderTest.fromJson(Constants.ACCOUNTS, json));
   }
 
   @Test
   public void accountGroupIDParse() {
-    AccountGroup.Id accountGroupId = new AccountGroup.Id(1);
+    AccountGroup.Id accountGroupId = AccountGroup.id(1);
     String json = gson.toJson(accountGroupId);
     assertThat(accountGroupId).isEqualTo(objectUnderTest.fromJson(Constants.GROUPS, json));
   }
 
   @Test
   public void accountGroupUUIDParse() {
-    AccountGroup.UUID accountGroupUuid = new AccountGroup.UUID("abc123");
+    AccountGroup.UUID accountGroupUuid = AccountGroup.uuid("abc123");
     String json = gson.toJson(accountGroupUuid);
     assertThat(accountGroupUuid)
         .isEqualTo(objectUnderTest.fromJson(Constants.GROUPS_BYINCLUDE, json));

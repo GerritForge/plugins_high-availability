@@ -29,18 +29,18 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IndexExecutorProviderTest {
+public class IndexInteractiveExecutorProviderTest {
   @Mock private WorkQueue.Executor executorMock;
-  private IndexExecutorProvider indexExecutorProvider;
+  private IndexInteractiveExecutorProvider indexExecutorProvider;
 
   @Before
   public void setUp() throws Exception {
     executorMock = mock(WorkQueue.Executor.class);
     WorkQueue workQueueMock = mock(WorkQueue.class);
-    when(workQueueMock.createQueue(4, "Forward-Index-Event")).thenReturn(executorMock);
+    when(workQueueMock.createQueue(4, "Forward-Index-Interactive-Event")).thenReturn(executorMock);
     Configuration configMock = mock(Configuration.class, Answers.RETURNS_DEEP_STUBS);
     when(configMock.index().threadPoolSize()).thenReturn(4);
-    indexExecutorProvider = new IndexExecutorProvider(workQueueMock, configMock);
+    indexExecutorProvider = new IndexInteractiveExecutorProvider(workQueueMock, configMock);
   }
 
   @Test

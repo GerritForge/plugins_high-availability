@@ -30,15 +30,20 @@ import java.util.concurrent.Executor;
 class IndexEventHandler
     implements ChangeIndexedListener, AccountIndexedListener, GroupIndexedListener {
   private final Executor executor;
+  private final Executor interactiveExecutor;
   private final Forwarder forwarder;
   private final String pluginName;
   private final Set<IndexTask> queuedTasks = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @Inject
   IndexEventHandler(
-      @IndexExecutor Executor executor, @PluginName String pluginName, Forwarder forwarder) {
+      @IndexBatchExecutor Executor executor,
+      @IndexInteractiveExecutor Executor interactiveExecutor,
+      @PluginName String pluginName,
+      Forwarder forwarder) {
     this.forwarder = forwarder;
     this.executor = executor;
+    this.interactiveExecutor = interactiveExecutor;
     this.pluginName = pluginName;
   }
 
@@ -76,7 +81,11 @@ class IndexEventHandler
     if (!Context.isForwardedEvent()) {
       IndexChangeTask task = new IndexChangeTask(id, deleted);
       if (queuedTasks.add(task)) {
-        executor.execute(task);
+        if (Thread.currentThread().getName().contains("Interactive")) {
+          interactiveExecutor.execute(task);
+        } else {
+          executor.execute(task);
+        }
       }
     }
   }

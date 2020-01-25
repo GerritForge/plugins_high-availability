@@ -31,7 +31,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class IndexExecutorProviderTest {
   @Mock private WorkQueue.Executor executorMock;
-  private IndexExecutorProvider indexExecutorProvider;
+  private IndexBatchExecutorProvider indexExecutorProvider;
 
   @Before
   public void setUp() throws Exception {
@@ -40,7 +40,7 @@ public class IndexExecutorProviderTest {
     when(workQueueMock.createQueue(4, "Forward-Index-Event")).thenReturn(executorMock);
     Configuration configMock = mock(Configuration.class, Answers.RETURNS_DEEP_STUBS);
     when(configMock.index().threadPoolSize()).thenReturn(4);
-    indexExecutorProvider = new IndexExecutorProvider(workQueueMock, configMock);
+    indexExecutorProvider = new IndexBatchExecutorProvider(workQueueMock, configMock);
   }
 
   @Test

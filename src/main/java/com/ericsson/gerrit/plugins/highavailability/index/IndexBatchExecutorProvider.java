@@ -21,10 +21,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class IndexExecutorProvider extends ExecutorProvider {
+class IndexBatchExecutorProvider extends ExecutorProvider {
 
   @Inject
-  IndexExecutorProvider(WorkQueue workQueue, Configuration config) {
-    super(workQueue, config.index().threadPoolSize(), "Forward-Index-Event");
+  IndexBatchExecutorProvider(WorkQueue workQueue, Configuration config) {
+    super(workQueue, config.index().threadPoolSize(), "Forward-Index-Batch-Event");
   }
 }

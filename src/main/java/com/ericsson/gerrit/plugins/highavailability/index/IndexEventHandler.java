@@ -14,6 +14,7 @@
 
 package com.ericsson.gerrit.plugins.highavailability.index;
 
+import com.ericsson.gerrit.plugins.highavailability.Configuration;
 import com.ericsson.gerrit.plugins.highavailability.forwarder.Context;
 import com.ericsson.gerrit.plugins.highavailability.forwarder.Forwarder;
 import com.google.common.base.Objects;
@@ -29,17 +30,25 @@ import java.util.concurrent.Executor;
 
 class IndexEventHandler
     implements ChangeIndexedListener, AccountIndexedListener, GroupIndexedListener {
-  private final Executor executor;
+  private final Executor batchExecutor;
+  private final Executor interactiveExecutor;
   private final Forwarder forwarder;
   private final String pluginName;
   private final Set<IndexTask> queuedTasks = Collections.newSetFromMap(new ConcurrentHashMap<>());
+  private final Configuration.Index indexConfig;
 
   @Inject
   IndexEventHandler(
-      @IndexExecutor Executor executor, @PluginName String pluginName, Forwarder forwarder) {
+      @IndexBatchExecutor Executor executor,
+      @IndexInteractiveExecutor Executor interactiveExecutor,
+      @PluginName String pluginName,
+      Forwarder forwarder,
+      Configuration config) {
     this.forwarder = forwarder;
-    this.executor = executor;
+    this.batchExecutor = executor;
+    this.interactiveExecutor = interactiveExecutor;
     this.pluginName = pluginName;
+    this.indexConfig = config.index();
   }
 
   @Override
@@ -47,7 +56,7 @@ class IndexEventHandler
     if (!Context.isForwardedEvent()) {
       IndexAccountTask task = new IndexAccountTask(id);
       if (queuedTasks.add(task)) {
-        executor.execute(task);
+        batchExecutor.execute(task);
       }
     }
   }
@@ -67,7 +76,7 @@ class IndexEventHandler
     if (!Context.isForwardedEvent()) {
       IndexGroupTask task = new IndexGroupTask(groupUUID);
       if (queuedTasks.add(task)) {
-        executor.execute(task);
+        batchExecutor.execute(task);
       }
     }
   }
@@ -76,7 +85,12 @@ class IndexEventHandler
     if (!Context.isForwardedEvent()) {
       IndexChangeTask task = new IndexChangeTask(id, deleted);
       if (queuedTasks.add(task)) {
-        executor.execute(task);
+        if ((indexConfig.batchThreadPoolSize() > 0)
+            && (Thread.currentThread().getName().contains("Batch"))) {
+          batchExecutor.execute(task);
+        } else {
+          interactiveExecutor.execute(task);
+        }
       }
     }
   }

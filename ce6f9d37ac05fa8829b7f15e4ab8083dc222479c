@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "746e929c_7411f42f",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexEventHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2020-01-25T14:21:29Z",
+      "side": 1,
+      "message": "Logger is never used.",
+      "range": {
+        "startLine": 32,
+        "startChar": 29,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "ce6f9d37ac05fa8829b7f15e4ab8083dc222479c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "302aecb8_f38e7f9f",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexEventHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2020-01-25T14:21:29Z",
+      "side": 1,
+      "message": "Cannot compile the code imports for Logger and LoggerFactory are missing",
+      "range": {
+        "startLine": 32,
+        "startChar": 21,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "ce6f9d37ac05fa8829b7f15e4ab8083dc222479c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b511e3a_4f446cc5",
         "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexEventHandler.java",
         "patchSetId": 2
@@ -42,6 +88,52 @@
         "startChar": 16,
         "endLine": 33,
         "endChar": 34
+      },
+      "revId": "ce6f9d37ac05fa8829b7f15e4ab8083dc222479c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eeea583_4065e650",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2020-01-25T14:21:29Z",
+      "side": 1,
+      "message": "InteractiveIntexExecutor is missing",
+      "range": {
+        "startLine": 30,
+        "startChar": 23,
+        "endLine": 30,
+        "endChar": 47
+      },
+      "revId": "ce6f9d37ac05fa8829b7f15e4ab8083dc222479c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fc6f085_f1890980",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2020-01-25T14:21:29Z",
+      "side": 1,
+      "message": "InteractiveIndexExecutorProvider is missing",
+      "range": {
+        "startLine": 31,
+        "startChar": 20,
+        "endLine": 31,
+        "endChar": 52
       },
       "revId": "ce6f9d37ac05fa8829b7f15e4ab8083dc222479c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",

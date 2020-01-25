@@ -26,6 +26,9 @@ public class IndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(Executor.class).annotatedWith(IndexExecutor.class).toProvider(IndexExecutorProvider.class);
+    bind(Executor.class)
+        .annotatedWith(InteractiveIndexExecutor.class)
+        .toProvider(InteractiveIndexExecutorProvider.class);
     listener().to(IndexExecutorProvider.class);
     DynamicSet.bind(binder(), ChangeIndexedListener.class).to(IndexEventHandler.class);
     DynamicSet.bind(binder(), AccountIndexedListener.class).to(IndexEventHandler.class);

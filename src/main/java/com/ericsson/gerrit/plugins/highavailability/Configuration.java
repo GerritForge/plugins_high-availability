@@ -51,7 +51,9 @@ public class Configuration {
 
   // common parameters to cache and index sections
   static final String THREAD_POOL_SIZE_KEY = "threadPoolSize";
+  static final String BATCH_THREAD_POOL_SIZE_KEY = "batchThreadPoolSize";
   static final int DEFAULT_THREAD_POOL_SIZE = 4;
+  static final int DEFAULT_BATCH_THREAD_POOL_SIZE = 0;
   static final String NUM_STRIPED_LOCKS = "numStripedLocks";
   static final int DEFAULT_NUM_STRIPED_LOCKS = 10;
 
@@ -409,11 +411,14 @@ public class Configuration {
     static final String PATTERN_KEY = "pattern";
 
     private final int threadPoolSize;
+    private final int batchThreadPoolSize;
     private final List<String> patterns;
 
     private Cache(Config cfg) {
       super(cfg, CACHE_SECTION);
       threadPoolSize = getInt(cfg, CACHE_SECTION, THREAD_POOL_SIZE_KEY, DEFAULT_THREAD_POOL_SIZE);
+      batchThreadPoolSize =
+          getInt(cfg, CACHE_SECTION, BATCH_THREAD_POOL_SIZE_KEY, DEFAULT_THREAD_POOL_SIZE);
       patterns = Arrays.asList(cfg.getStringList(CACHE_SECTION, null, PATTERN_KEY));
     }
 
@@ -439,16 +444,24 @@ public class Configuration {
 
     private final int threadPoolSize;
 
+    private final int batchThreadPoolSize;
+
     private final int numStripedLocks;
 
     private Index(Config cfg) {
       super(cfg, INDEX_SECTION);
       threadPoolSize = getInt(cfg, INDEX_SECTION, THREAD_POOL_SIZE_KEY, DEFAULT_THREAD_POOL_SIZE);
+      batchThreadPoolSize =
+          getInt(cfg, INDEX_SECTION, BATCH_THREAD_POOL_SIZE_KEY, DEFAULT_BATCH_THREAD_POOL_SIZE);
       numStripedLocks = getInt(cfg, INDEX_SECTION, NUM_STRIPED_LOCKS, DEFAULT_NUM_STRIPED_LOCKS);
     }
 
     public int threadPoolSize() {
       return threadPoolSize;
+    }
+
+    public int batchThreadPoolSize() {
+      return batchThreadPoolSize;
     }
 
     public int numStripedLocks() {

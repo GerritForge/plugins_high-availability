@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "70129d77_2a3ba9b4",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexEventHandler.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2020-01-26T12:48:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a36a2fac_9336924b",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 14
+      },
+      "revId": "e3abd5ae10c8048dac1b9becf2d824364c52d982",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c571d93_87f15cca",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 7
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Yes, it is the existing configuration.",
       "parentUuid": "1c571d93_87f15cca",
+      "range": {
+        "startLine": 202,
+        "startChar": 73,
+        "endLine": 203,
+        "endChar": 22
+      },
+      "revId": "e3abd5ae10c8048dac1b9becf2d824364c52d982",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cf7693a_cb6fe266",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2020-01-26T12:48:53Z",
+      "side": 1,
+      "message": "Ok, makes sense.\n\nLittle mistake in the parameter description: \"using the in the same thread\" \u003d\u003e \"using the same thread pool\"",
+      "parentUuid": "c78bfb39_b1ed450f",
       "range": {
         "startLine": 202,
         "startChar": 73,

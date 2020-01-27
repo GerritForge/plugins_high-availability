@@ -22,6 +22,30 @@
       "revId": "75c6eb71e24737e5cbe3b4d6d2ab5c73fa3422ce",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68074215_e9d8a0b5",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexEventHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-01-27T21:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2134a29b_f838341a",
+      "range": {
+        "startLine": 39,
+        "startChar": 25,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "75c6eb71e24737e5cbe3b4d6d2ab5c73fa3422ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }

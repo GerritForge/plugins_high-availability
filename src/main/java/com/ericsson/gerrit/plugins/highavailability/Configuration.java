@@ -69,7 +69,9 @@ public class Configuration {
   static final int DEFAULT_RETRY_INTERVAL = 10000;
   static final int DEFAULT_INDEX_MAX_TRIES = 2;
   static final int DEFAULT_INDEX_RETRY_INTERVAL = 30000;
+  static final String BATCH_THREAD_POOL_SIZE_KEY = "batchThreadPoolSize";
   static final int DEFAULT_THREAD_POOL_SIZE = 4;
+  static final int DEFAULT_BATCH_THREAD_POOL_SIZE = 0;
   static final String NUM_STRIPED_LOCKS = "numStripedLocks";
   static final int DEFAULT_NUM_STRIPED_LOCKS = 10;
 
@@ -461,11 +463,15 @@ public class Configuration {
     private final int retryInterval;
     private final int maxTries;
 
+    private final int batchThreadPoolSize;
+
     private final int numStripedLocks;
 
     private Index(Config cfg) {
       super(cfg, INDEX_SECTION);
       threadPoolSize = getInt(cfg, INDEX_SECTION, THREAD_POOL_SIZE_KEY, DEFAULT_THREAD_POOL_SIZE);
+      batchThreadPoolSize =
+              getInt(cfg, INDEX_SECTION, BATCH_THREAD_POOL_SIZE_KEY, DEFAULT_BATCH_THREAD_POOL_SIZE);
       retryInterval = getInt(cfg, INDEX_SECTION, RETRY_INTERVAL_KEY, DEFAULT_INDEX_RETRY_INTERVAL);
       maxTries = getInt(cfg, INDEX_SECTION, MAX_TRIES_KEY, DEFAULT_INDEX_MAX_TRIES);
       numStripedLocks = getInt(cfg, INDEX_SECTION, NUM_STRIPED_LOCKS, DEFAULT_NUM_STRIPED_LOCKS);
@@ -473,6 +479,10 @@ public class Configuration {
 
     public int threadPoolSize() {
       return threadPoolSize;
+    }
+
+    public int batchThreadPoolSize() {
+      return batchThreadPoolSize;
     }
 
     public int retryInterval() {

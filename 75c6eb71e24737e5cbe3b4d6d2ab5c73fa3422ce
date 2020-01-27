@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2134a29b_f838341a",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexEventHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2020-01-27T21:37:00Z",
+      "side": 1,
+      "message": "Compilation issue. This field is not used anymore but it\u0027s final so must be initialised. I think we should remove it",
+      "range": {
+        "startLine": 39,
+        "startChar": 25,
+        "endLine": 39,
+        "endChar": 33
+      },
+      "revId": "75c6eb71e24737e5cbe3b4d6d2ab5c73fa3422ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

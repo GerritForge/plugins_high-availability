@@ -14,17 +14,11 @@
 
 package com.ericsson.gerrit.plugins.highavailability.index;
 
-import com.ericsson.gerrit.plugins.highavailability.Configuration;
-import com.ericsson.gerrit.plugins.highavailability.ExecutorProvider;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Singleton
-class IndexExecutorProvider extends ExecutorProvider {
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.Retention;
 
-  @Inject
-  IndexExecutorProvider(WorkQueue workQueue, Configuration config) {
-    super(workQueue, config.index().threadPoolSize(), "Forward-Index-Event");
-  }
-}
+@Retention(RUNTIME)
+@BindingAnnotation
+@interface IndexBatchExecutor {}

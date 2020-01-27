@@ -17,12 +17,15 @@ package com.ericsson.gerrit.plugins.highavailability.index;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import com.ericsson.gerrit.plugins.highavailability.Configuration;
 import com.ericsson.gerrit.plugins.highavailability.forwarder.Context;
 import com.ericsson.gerrit.plugins.highavailability.forwarder.Forwarder;
 import com.ericsson.gerrit.plugins.highavailability.forwarder.IndexEvent;
@@ -54,6 +57,8 @@ public class IndexEventHandlerTest {
   @Mock private Forwarder forwarder;
   @Mock private ChangeCheckerImpl.Factory changeCheckerFactoryMock;
   @Mock private ChangeChecker changeCheckerMock;
+  @Mock private Configuration config;
+  @Mock private Configuration.Index indexConfig;
   private Change.Id changeId;
   private Account.Id accountId;
   private AccountGroup.UUID accountGroupUUID;
@@ -63,11 +68,17 @@ public class IndexEventHandlerTest {
     changeId = new Change.Id(CHANGE_ID);
     accountId = new Account.Id(ACCOUNT_ID);
     accountGroupUUID = new AccountGroup.UUID(UUID);
+    doReturn(indexConfig).when(config).index();
     when(changeCheckerFactoryMock.create(any())).thenReturn(changeCheckerMock);
     when(changeCheckerMock.newIndexEvent()).thenReturn(Optional.of(new IndexEvent()));
     indexEventHandler =
         new IndexEventHandler(
-            MoreExecutors.directExecutor(), PLUGIN_NAME, forwarder, changeCheckerFactoryMock);
+            MoreExecutors.directExecutor(),
+            MoreExecutors.directExecutor(),
+            PLUGIN_NAME,
+            forwarder,
+            changeCheckerFactoryMock,
+            config);
   }
 
   @Test
@@ -150,6 +161,57 @@ public class IndexEventHandlerTest {
     indexEventHandler.onGroupIndexed(accountGroupUUID.get());
     indexEventHandler.onGroupIndexed(accountGroupUUID.get());
     verify(poolMock, times(1)).execute(indexEventHandler.new IndexGroupTask(UUID));
+  }
+
+  @Test
+  public void changeIndexEventShouldBeSentToInteractiveExecutor() {
+    Executor interactiveExecutor = mock(Executor.class);
+    Executor batchExecutor = mock(Executor.class);
+    indexEventHandler =
+        new IndexEventHandler(batchExecutor, interactiveExecutor, PLUGIN_NAME, forwarder, config);
+    indexEventHandler.onChangeIndexed(CHANGE_ID);
+    IndexChangeTask indexChangeTask = indexEventHandler.new IndexChangeTask(CHANGE_ID, false);
+    verify(interactiveExecutor, times(1)).execute(indexChangeTask);
+    verify(batchExecutor, never()).execute(indexChangeTask);
+  }
+
+  @Test
+  public void changeIndexBatchEventShouldBeSentToInteractiveExecutorByDefault() {
+    Thread currentThread = Thread.currentThread();
+    String currentThreadName = currentThread.getName();
+    try {
+      Executor interactiveExecutor = mock(Executor.class);
+      Executor batchExecutor = mock(Executor.class);
+      indexEventHandler =
+          new IndexEventHandler(batchExecutor, interactiveExecutor, PLUGIN_NAME, forwarder, config);
+      currentThread.setName("Batch");
+      indexEventHandler.onChangeIndexed(CHANGE_ID);
+      IndexChangeTask indexChangeTask = indexEventHandler.new IndexChangeTask(CHANGE_ID, false);
+      verify(interactiveExecutor, times(1)).execute(indexChangeTask);
+      verify(batchExecutor, never()).execute(indexChangeTask);
+    } finally {
+      currentThread.setName(currentThreadName);
+    }
+  }
+
+  @Test
+  public void changeIndexBatchEventShouldBeSentToBatchExecutorWhenEnabled() {
+    Thread currentThread = Thread.currentThread();
+    String currentThreadName = currentThread.getName();
+    try {
+      Executor interactiveExecutor = mock(Executor.class);
+      Executor batchExecutor = mock(Executor.class);
+      doReturn(1).when(indexConfig).batchThreadPoolSize();
+      indexEventHandler =
+          new IndexEventHandler(batchExecutor, interactiveExecutor, PLUGIN_NAME, forwarder, config);
+      currentThread.setName("Batch");
+      indexEventHandler.onChangeIndexed(CHANGE_ID);
+      IndexChangeTask indexChangeTask = indexEventHandler.new IndexChangeTask(CHANGE_ID, false);
+      verify(interactiveExecutor, never()).execute(indexChangeTask);
+      verify(batchExecutor, times(1)).execute(indexChangeTask);
+    } finally {
+      currentThread.setName(currentThreadName);
+    }
   }
 
   @Test

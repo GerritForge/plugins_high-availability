@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2691745b_5d6369b7",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/Configuration.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2020-01-27T00:29:22Z",
+      "side": 1,
+      "message": "variable never used",
+      "range": {
+        "startLine": 414,
+        "startChar": 22,
+        "endLine": 414,
+        "endChar": 41
+      },
+      "revId": "81a3e5ca7f5f31a32afe2d8ae233d97b8358facc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05a4d8c0_c114f829",
+        "filename": "src/main/java/com/ericsson/gerrit/plugins/highavailability/index/IndexModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2020-01-27T00:29:22Z",
+      "side": 1,
+      "message": "Should we also start/stop IndexInteractiveExecutorProvider similar to IndexBatchExecutorProvider?",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 52
+      },
+      "revId": "81a3e5ca7f5f31a32afe2d8ae233d97b8358facc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

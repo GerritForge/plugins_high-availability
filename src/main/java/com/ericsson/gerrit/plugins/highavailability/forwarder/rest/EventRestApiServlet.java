@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 class EventRestApiServlet extends AbstractRestApiServlet {
   private static final long serialVersionUID = -1L;
+  public static final String DRAFT_PUBLISHED_PATH_INFO = "/draft-published";
 
   private final ForwardedEventHandler forwardedEventHandler;
 
@@ -54,6 +55,11 @@ class EventRestApiServlet extends AbstractRestApiServlet {
     try {
       if (!MediaType.parse(req.getContentType()).is(JSON_UTF_8)) {
         sendError(rsp, SC_UNSUPPORTED_MEDIA_TYPE, "Expecting " + JSON_UTF_8 + " content type");
+        return;
+      }
+      if (req.getPathInfo().equals(DRAFT_PUBLISHED_PATH_INFO)) {
+        log.warn("Received draft-published event. Dropping it.");
+        rsp.setStatus(SC_NO_CONTENT);
         return;
       }
       forwardedEventHandler.dispatch(getEventFromRequest(req));

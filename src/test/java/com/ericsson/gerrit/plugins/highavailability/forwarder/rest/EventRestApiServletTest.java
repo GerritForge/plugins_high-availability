@@ -14,6 +14,7 @@
 
 package com.ericsson.gerrit.plugins.highavailability.forwarder.rest;
 
+import static com.ericsson.gerrit.plugins.highavailability.forwarder.rest.EventRestApiServlet.DRAFT_PUBLISHED_PATH_INFO;
 import static com.google.common.net.MediaType.JSON_UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
@@ -21,6 +22,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -88,6 +90,16 @@ public class EventRestApiServletTest {
         .dispatch(any(RefReplicationDoneEvent.class));
     eventRestApiServlet.doPost(requestMock, responseMock);
     verify(responseMock).sendError(SC_NOT_FOUND, "Change not found\n");
+  }
+
+  @Test
+  public void testDropDraftPublished() throws Exception {
+    when(requestMock.getPathInfo()).thenReturn(DRAFT_PUBLISHED_PATH_INFO);
+
+    eventRestApiServlet.doPost(requestMock, responseMock);
+
+    verify(responseMock).setStatus(SC_NO_CONTENT);
+    verify(forwardedEventHandlerMock, never()).dispatch(any());
   }
 
   @Test

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd7cfa8_5cab960f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-13T23:38:52Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is needed: during the cutover you just need to disable the draft comments, which are going to be discontinued anyway.",
+      "revId": "59c1eaad81569f9de3458e38e65c9f8a6ae78f55",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

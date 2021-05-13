@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "817d5a0d_380ed3a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2021-05-13T15:33:05Z",
+      "side": 1,
+      "message": "Need to better understand if the change works, for example, if notedb was enabled in 2.15",
+      "revId": "5fe3590896f4a954d617b631c330025d86954c6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

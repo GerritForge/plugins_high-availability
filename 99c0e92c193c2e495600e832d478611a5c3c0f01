@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f043dc9_cfdd38e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-13T23:36:35Z",
+      "side": 1,
+      "message": "Re-applying @Ponch +2 based on just a minor addition of the $GERRIT_BRANCH environment expansion",
+      "revId": "99c0e92c193c2e495600e832d478611a5c3c0f01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

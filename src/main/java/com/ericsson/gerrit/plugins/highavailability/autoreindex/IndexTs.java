@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.git.WorkQueue;
@@ -102,12 +103,12 @@ public class IndexTs
   @Override
   public void onChangeIndexed(String projectName, int id) {
     try (ReviewDb db = schemaFactory.open()) {
-      ChangeNotes changeNotes = changeFinder.findOne(projectName + "~" + id);
+      Change change = db.changes().get(new Change.Id(id));
       update(
           IndexName.CHANGE,
-          changeNotes == null
+          change == null
               ? LocalDateTime.now()
-              : changeNotes.getChange().getLastUpdatedOn().toLocalDateTime());
+              : change.getLastUpdatedOn().toLocalDateTime());
     } catch (Exception e) {
       log.warn("Unable to update the latest TS for change {}", e);
     }

@@ -120,6 +120,12 @@ public class ForwardedIndexChangeHandlerTest {
   }
 
   @Test
+  public void changeWithoutProjectIsDeletedFromIndex() throws Exception {
+    handler.index(String.valueOf(TEST_CHANGE_NUMBER), Operation.DELETE, Optional.empty());
+    verify(indexerMock, times(1)).delete(id);
+  }
+
+  @Test
   public void changeToIndexDoesNotExist() throws Exception {
     setupChangeAccessRelatedMocks(CHANGE_DOES_NOT_EXIST, CHANGE_OUTDATED);
     handler.index(TEST_CHANGE_ID, Operation.INDEX, Optional.empty());

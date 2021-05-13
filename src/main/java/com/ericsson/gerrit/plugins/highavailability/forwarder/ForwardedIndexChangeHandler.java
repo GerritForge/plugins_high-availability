@@ -32,6 +32,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -170,7 +171,8 @@ public class ForwardedIndexChangeHandler extends ForwardedIndexingHandler<String
   }
 
   private static Change.Id parseChangeId(String id) {
-    Change.Id changeId = new Change.Id(Integer.parseInt(Splitter.on("~").splitToList(id).get(1)));
-    return changeId;
+    List <String> changeSegments = Splitter.on("~").splitToList(id);
+    String changeIdString = changeSegments.size() == 1 ? changeSegments.get(0) : changeSegments.get(1);
+    return new Change.Id(Integer.parseInt(changeIdString));
   }
 }

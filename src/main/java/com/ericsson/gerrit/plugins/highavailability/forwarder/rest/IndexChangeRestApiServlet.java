@@ -15,9 +15,11 @@
 package com.ericsson.gerrit.plugins.highavailability.forwarder.rest;
 
 import com.ericsson.gerrit.plugins.highavailability.forwarder.ForwardedIndexChangeHandler;
+import com.google.common.base.Splitter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.List;
 
 @Singleton
 class IndexChangeRestApiServlet extends AbstractIndexRestApiServlet<Change.Id> {
@@ -30,6 +32,9 @@ class IndexChangeRestApiServlet extends AbstractIndexRestApiServlet<Change.Id> {
 
   @Override
   Change.Id parse(String id) {
-    return new Change.Id(Integer.parseInt(id));
+    List<String> changeSegments = Splitter.on("~").splitToList(id);
+    String changeIdString =
+        changeSegments.size() == 1 ? changeSegments.get(0) : changeSegments.get(1);
+    return new Change.Id(Integer.parseInt(changeIdString));
   }
 }

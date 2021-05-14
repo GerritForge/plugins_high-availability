@@ -82,7 +82,7 @@ public class ChangeCheckerImpl implements ChangeChecker {
   @Override
   public Optional<ChangeNotes> getChangeNotes() throws OrmException {
     try (ManualRequestContext ctx = oneOffReqCtx.open()) {
-      this.changeNotes = Optional.ofNullable(changeFinder.findOne(changeId));
+      this.changeNotes = Optional.ofNullable(changeFinder.findOne(normalizedChangeId()));
       return changeNotes;
     }
   }
@@ -167,5 +167,17 @@ public class ChangeCheckerImpl implements ChangeChecker {
       log.warn("Unable to access draft comments for change {}", change, e);
     }
     return changeTs.getTime() / 1000;
+  }
+
+  private String normalizedChangeId() throws OrmException {
+    if (!changeId.contains("~")) {
+      try (ReviewDb db = changeDb.open()) {
+        Change change = db.changes().get(new Change.Id(Integer.parseInt(changeId)));
+        if (change != null) {
+          return String.join("~", change.getProject().get(), changeId);
+        }
+      }
+    }
+    return changeId;
   }
 }

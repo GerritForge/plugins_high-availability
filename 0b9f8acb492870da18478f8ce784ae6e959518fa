@@ -16,6 +16,24 @@
       "message": "what will happen for fresh installation without any changes. I believe health check will fail.",
       "revId": "0b9f8acb492870da18478f8ce784ae6e959518fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fad79669_b83a9da1",
+        "filename": "src/test/docker/etc/healthcheck.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-28T10:45:01Z",
+      "side": 1,
+      "message": "True, however, that isn\u0027t a realistic use-case, isn\u0027t it?",
+      "parentUuid": "4e27044c_bf39344d",
+      "revId": "0b9f8acb492870da18478f8ce784ae6e959518fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

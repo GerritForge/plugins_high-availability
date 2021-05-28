@@ -18,6 +18,7 @@ import com.ericsson.gerrit.plugins.highavailability.forwarder.ForwardedIndexChan
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.List;
 
 @Singleton
 class IndexChangeRestApiServlet extends AbstractIndexRestApiServlet<String> {

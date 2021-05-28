@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e27044c_bf39344d",
+        "filename": "src/test/docker/etc/healthcheck.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2021-05-28T10:43:13Z",
+      "side": 1,
+      "message": "what will happen for fresh installation without any changes. I believe health check will fail.",
+      "revId": "0b9f8acb492870da18478f8ce784ae6e959518fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

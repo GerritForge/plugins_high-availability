@@ -138,7 +138,7 @@ public class ChangeCheckerImpl implements ChangeChecker {
         String refName = changeNotes.get().getChange().getDest().get();
         Ref ref = repo.exactRef(refName);
         if (ref == null) {
-          log.warn("Unable to find target ref {} for change {}", refName, changeId);
+          log.debug("Unable to find target ref {} for change {}", refName, changeId);
           return null;
         }
         return ref.getTarget().getObjectId().getName();
